@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Order, Game } from "../../../shared/types";
 import { recipes } from "../../../shared/catalog";
+import { requiredWeight, orderQuote, sizeSpecs } from "../../../shared/weights";
 import { patience } from "../lib/patience";
 defineProps<{ order: Order; game: Game }>();
 defineEmits<{ accept: [id: number]; select: [id: number] }>();
@@ -21,8 +22,11 @@ defineEmits<{ accept: [id: number]; select: [id: number] }>();
       <span>{{ recipes[order.recipe].icon }}</span
       ><strong>{{ recipes[order.recipe].name }}</strong>
     </div>
+    <div class="size-tag" :class="'size-' + order.size">
+      {{ sizeSpecs[order.size].label }} · {{ requiredWeight(order.recipe, order.size) }}g
+    </div>
     <div class="muted">
-      {{ order.guest }} · ¥{{ recipes[order.recipe].price }}
+      {{ order.guest }} · ¥{{ orderQuote(order.recipe, order.size) }}
     </div>
     <div class="patience">
       <i :style="{ width: patience(game, order) * 100 + '%' }"></i>

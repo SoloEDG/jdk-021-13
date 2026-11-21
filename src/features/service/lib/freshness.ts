@@ -1,9 +1,7 @@
 import type { Dish, Game } from "../../../shared/types";
 export function servingQuality(g: Game, d: Dish) {
-  return Math.max(
-    0,
-    d.quality - Math.floor(Math.max(0, g.time - d.cookedAt - 15) * 2),
-  );
+  const since = g.time - d.cookedAt;
+  return Math.max(0, d.quality - Math.floor(Math.max(0, since - 15) * 2));
 }
 export function servicePair(g: Game) {
   return {

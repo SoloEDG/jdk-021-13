@@ -1,13 +1,16 @@
 import type { Game } from "../../../shared/types";
 export function totals(g: Game) {
   return {
-    net: g.entries.reduce((s, e) => s + e.amount, 0),
+    net: Math.round(g.entries.reduce((s, e) => s + e.amount, 0) * 100) / 100,
     sales: g.entries
       .filter((e) => e.kind === "sale")
       .reduce((s, e) => s + e.amount, 0),
-    cost: -g.entries
-      .filter((e) => e.amount < 0)
-      .reduce((s, e) => s + e.amount, 0),
+    cost:
+      Math.round(
+        -g.entries
+          .filter((e) => e.amount < 0)
+          .reduce((s, e) => s + e.amount, 0) * 100,
+      ) / 100,
   };
 }
 export function grade(g: Game) {
